@@ -1,0 +1,23 @@
+#include <cmath>
+#include <string>
+
+std::string counterGame(long n) {
+    long long count = 0;
+    while (n > 1) {
+        if ((n & (n - 1)) == 0) { // Check if n is a power of 2
+            n /= 2;
+        } else {
+            // Find the largest power of 2 less than n
+            long long k = floor(log2(n));
+            long long largest_power_of_2 = 1LL << k;
+            n -= largest_power_of_2;
+        }
+        count++;
+    }
+
+    if (count % 2 == 1) {
+        return "Louise";
+    } else {
+        return "Richard";
+    }
+}
