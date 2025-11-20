@@ -1,0 +1,49 @@
+string happyLadybugs(string b) {
+    int freq[26] = {0};
+    bool hasUnderscore = false;
+    
+    // FIX 1: Changed assignment 'c = '_'' to comparison 'c == '_''
+    for(char c : b){
+        if (c == '_'){
+            hasUnderscore = true;
+        } else{
+            // This assumes 'A' is the start of the uppercase letters
+            freq[c - 'A']++ ;
+        }
+    }
+    
+    // Check if any ladybug color appears only once. If so, they can never be happy.
+    for (int count : freq) {
+        if (count == 1) {
+            return "NO";
+        }
+    }
+    
+    // If there are underscores, and no color appears only once, 
+    // we can always rearrange them to be happy.
+    if (hasUnderscore){
+        return "YES";
+    }
+    
+    // If there are NO underscores, the board is immutable.
+    // Check if the current arrangement is already happy.
+    int n = b.size();
+    
+    // The previous frequency check (count == 1) handles the case for n=1 (e.g., "A").
+    for(int i = 0 ; i < n ; i++){
+        bool happy = false;
+        
+        // Check left neighbor
+        if(i > 0 && b[i] == b[i - 1]) happy = true;
+        
+        // Check right neighbor
+        if(i < n - 1 && b[i] == b[i + 1]) happy = true;
+        
+        // If a ladybug is not happy, and we can't move them (no underscore), return NO.
+        if (!happy) return "NO";
+        
+    }
+    
+    // If no underscores and everyone is already happy.
+    return "YES";
+}
